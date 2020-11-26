@@ -12,6 +12,11 @@ div#__next {
 a {
   color: inherit;
   text-decoration: none;
+  font-size: inherit;
+}
+
+a:hover {
+  color: blue;
 }
 
 * {

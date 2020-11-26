@@ -8,7 +8,7 @@ const myTreeData = [
     resources: [
       {
         name: "introduction",
-        link: "https://www.w3schools.com/html/html_links.asp",
+        link: "/",
         type: "video",
       },
     ],
@@ -18,7 +18,7 @@ const myTreeData = [
         resources: [
           {
             name: "introduction",
-            link: "https://www.w3schools.com/html/html_links.asp",
+            link: "/",
             type: "video",
           },
         ],
@@ -28,17 +28,17 @@ const myTreeData = [
             resources: [
               {
                 name: "introduction",
-                link: "https://www.w3schools.com/html/html_links.asp",
+                link: "/",
                 type: "video",
               },
               {
                 name: "in-depth",
-                link: "https://www.w3schools.com/html/html_links.asp",
+                link: "/",
                 type: "video",
               },
               {
                 name: "expert",
-                link: "https://www.w3schools.com/html/html_links.asp",
+                link: "/",
                 type: "text",
               },
             ],
@@ -48,17 +48,17 @@ const myTreeData = [
             resources: [
               {
                 name: "introduction",
-                link: "https://www.w3schools.com/html/html_links.asp",
+                link: "/",
                 type: "video",
               },
               {
                 name: "in-depth",
-                link: "https://www.w3schools.com/html/html_links.asp",
+                link: "/",
                 type: "video",
               },
               {
                 name: "expert",
-                link: "https://www.w3schools.com/html/html_links.asp",
+                link: "/",
                 type: "text",
               },
             ],
@@ -70,7 +70,7 @@ const myTreeData = [
         resources: [
           {
             name: "introduction",
-            link: "https://www.w3schools.com/html/html_links.asp",
+            link: "/",
             type: "video",
           },
         ],
@@ -80,17 +80,17 @@ const myTreeData = [
             resources: [
               {
                 name: "introduction",
-                link: "https://www.w3schools.com/html/html_links.asp",
+                link: "/",
                 type: "video",
               },
               {
                 name: "in-depth",
-                link: "https://www.w3schools.com/html/html_links.asp",
+                link: "/",
                 type: "video",
               },
               {
                 name: "expert",
-                link: "https://www.w3schools.com/html/html_links.asp",
+                link: "/",
                 type: "text",
               },
             ],
@@ -99,18 +99,19 @@ const myTreeData = [
             name: "LinkedList",
             resources: [
               {
-                name: "introduction",
-                link: "https://www.w3schools.com/html/html_links.asp",
+                name:
+                  "introduction is superlong superlong superlong superlong superlong superlong",
+                link: "/",
                 type: "video",
               },
               {
                 name: "in-depth",
-                link: "https://www.w3schools.com/html/html_links.asp",
+                link: "/",
                 type: "video",
               },
               {
                 name: "expert",
-                link: "https://www.w3schools.com/html/html_links.asp",
+                link: "/",
                 type: "text",
               },
             ],
@@ -122,7 +123,7 @@ const myTreeData = [
         resources: [
           {
             name: "introduction",
-            link: "https://www.w3schools.com/html/html_links.asp",
+            link: "/",
             type: "video",
           },
         ],
@@ -132,7 +133,7 @@ const myTreeData = [
             resources: [
               {
                 name: "what is a shell",
-                link: "https://www.w3schools.com/html/html_links.asp",
+                link: "/",
                 type: "video",
               },
             ],
@@ -142,7 +143,7 @@ const myTreeData = [
             resources: [
               {
                 name: "How to understand path",
-                link: "https://www.w3schools.com/html/html_links.asp",
+                link: "/",
                 type: "video",
               },
             ],
