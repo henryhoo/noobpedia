@@ -12,19 +12,19 @@ enum ResourceType {
   READ = "read",
 }
 
-type Resource = {
+export type KnowledgeResource = {
   name: string;
   link: string;
   type: ResourceType;
 };
 
-type Subject = {
+export type KnowledgeSubject = {
   name: string;
-  resources: Resource[];
-  children: Subject[];
+  resources: KnowledgeResource[];
+  children: KnowledgeSubject[];
 };
 
-type TreeNodeProps = { nodeData?: Subject };
+type TreeNodeProps = { nodeData?: KnowledgeSubject };
 
 const NODE_SIZE = { width: 300, height: 150 };
 
