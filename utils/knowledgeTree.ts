@@ -1,7 +1,3 @@
-import type {
-  KnowledgeSubject,
-  KnowledgeResource,
-} from "components/knowledgeTree";
 import {
   KNOWLEDGE_PATH,
   KNOWLEDGE_RESOURCE_PATH,
@@ -9,8 +5,15 @@ import {
 } from "constants/path";
 
 import yaml from "js-yaml";
-import { getAllFileContentsInDir } from "utils/files";
+import { getAllFileContentsInDir, getFileContent } from "utils/files";
 import fs from "fs";
+
+import type {
+  KnowledgeSubject,
+  KnowledgeResource,
+  KnowledgeMetadata,
+} from "types";
+import { resolveMx } from "dns";
 
 type KnowledgeSubjectRaw = {
   name: string;
@@ -18,11 +21,19 @@ type KnowledgeSubjectRaw = {
   children: string[];
 };
 
-export function getKnowledgeTree(knowledge?: string): KnowledgeSubject {
-  const allKnowledgeYAMLContents: {} = getAllFileContentsInDir(KNOWLEDGE_PATH);
+export function getKnowledgeTree(knowledgeDir: string): KnowledgeSubject {
+  const knowledgeDirPath = KNOWLEDGE_PATH + knowledgeDir + "/";
+  const knowledgeFileName = ROOT_KNOWLEDGE_FILENAME;
+
+  const allKnowledgeYAMLContents: {} = getAllFileContentsInDir(
+    knowledgeDirPath
+  );
   const allResourceYAMLContents: {} = getAllFileContentsInDir(
     KNOWLEDGE_RESOURCE_PATH
   );
+  if (!(knowledgeFileName in allKnowledgeYAMLContents)) {
+    throw new Error(`knowledge ${knowledgeFileName} does not exist`);
+  }
 
   const createTreeNode = (node: KnowledgeSubjectRaw): KnowledgeSubject => {
     const childrenFileNames = node.children;
@@ -50,12 +61,6 @@ export function getKnowledgeTree(knowledge?: string): KnowledgeSubject {
     return { name: node.name, children, resources };
   };
 
-  const knowledgeFileName = knowledge
-    ? knowledge + ".yaml"
-    : ROOT_KNOWLEDGE_FILENAME;
-  if (!(knowledgeFileName in allKnowledgeYAMLContents)) {
-    throw new Error(`knowledge ${knowledgeFileName} does not exist`);
-  }
   const root: KnowledgeSubjectRaw = yaml.safeLoad(
     allKnowledgeYAMLContents[knowledgeFileName]
   );
@@ -67,8 +72,27 @@ export function getAllKnowledgePaths(): { params: { knowledge: string } }[] {
   return fileNames.map((fileName) => {
     return {
       params: {
-        knowledge: fileName.replace(/\.yaml$/, ""),
+        knowledge: fileName,
       },
     };
   });
+}
+
+export function getAllKnowledges(): KnowledgeMetadata[] {
+  const knowledgeDirs = fs.readdirSync(KNOWLEDGE_PATH);
+  const res = knowledgeDirs.map((knowledgeDir) => {
+    const content = yaml.safeLoad(
+      getFileContent(
+        KNOWLEDGE_PATH + knowledgeDir + "/" + ROOT_KNOWLEDGE_FILENAME
+      )
+    );
+    return {
+      name: content.name,
+      path: knowledgeDir,
+    };
+  });
+  res.push({ name: "dummy", path: "sd" });
+  res.push({ name: "dummy", path: "sd" });
+  res.push({ name: "dummy", path: "sd" });
+  return res;
 }

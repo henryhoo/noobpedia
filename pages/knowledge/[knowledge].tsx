@@ -3,7 +3,8 @@ import { GetStaticProps, GetStaticPaths } from "next";
 
 import React, { useRef } from "react";
 import styles from "styles/Home.module.css";
-import Tree, { KnowledgeSubject } from "components/knowledgeTree";
+import Tree from "components/knowledgeTree";
+import { KnowledgeSubject } from "types";
 import { getKnowledgeTree } from "utils/knowledgeTree";
 
 type URLParams = {

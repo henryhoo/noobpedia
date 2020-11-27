@@ -12,40 +12,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import Breadcrumbs from "@material-ui/core/breadcrumbs";
 import Link from "next/link";
 import { useRouter } from "next/router";
-
-const rootTheme = createMuiTheme({
-  spacing: 8,
-  palette: {
-    // type: "dark",
-    primary: {
-      light: "#cfcfcf",
-      main: "#9e9e9e",
-      dark: "#707070",
-      contrastText: "#000",
-    },
-    secondary: {
-      light: "#efefef",
-      main: "#bdbdbd",
-      dark: "#8d8d8d",
-      contrastText: "#000",
-    },
-    background: {
-      paper: "#bdbdbd",
-    },
-  },
-  typography: {
-    fontSize: 14,
-  },
-  overrides: {
-    MuiCssBaseline: {
-      "@global": {
-        // h1: {
-        //   fontSize: 60,
-        // },
-      },
-    },
-  },
-});
+import theme from "styles/theme";
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -61,7 +28,7 @@ function MyApp({ Component, pageProps }) {
   const router = useRouter();
 
   return (
-    <ThemeProvider theme={rootTheme}>
+    <ThemeProvider theme={theme}>
       <AppBar position="static">
         <Toolbar>
           <IconButton

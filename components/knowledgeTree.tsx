@@ -2,23 +2,6 @@ import D3Tree from "components/d3Tree";
 import React, { useEffect, useState } from "react";
 import TreeNode from "components/knowledgeCard";
 
-enum ResourceType {
-  VIDEO = "video",
-  READ = "read",
-}
-
-export type KnowledgeResource = {
-  name: string;
-  link: string;
-  type: ResourceType;
-};
-
-export type KnowledgeSubject = {
-  name: string;
-  resources: KnowledgeResource[];
-  children: KnowledgeSubject[];
-};
-
 export const NODE_SIZE: { width: number; height: number } = {
   width: 300,
   height: 150,
