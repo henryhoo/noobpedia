@@ -10,6 +10,7 @@ import {
 
 import yaml from "js-yaml";
 import { getAllFileContentsInDir } from "utils/files";
+import fs from "fs";
 
 type KnowledgeSubjectRaw = {
   name: string;
@@ -17,7 +18,7 @@ type KnowledgeSubjectRaw = {
   children: string[];
 };
 
-export function getKnowledgeTree(): KnowledgeSubject {
+export function getKnowledgeTree(knowledge?: string): KnowledgeSubject {
   const allKnowledgeFiles: {} = getAllFileContentsInDir(KNOWLEDGE_PATH);
   const allResourcesFiles: {} = getAllFileContentsInDir(
     KNOWLEDGE_RESOURCE_PATH
@@ -48,7 +49,18 @@ export function getKnowledgeTree(): KnowledgeSubject {
   };
 
   const root: KnowledgeSubjectRaw = yaml.safeLoad(
-    allKnowledgeFiles[ROOT_KNOWLEDGE_FILENAME]
+    allKnowledgeFiles[knowledge ? knowledge + ".yaml" : ROOT_KNOWLEDGE_FILENAME]
   );
   return createTreeNode(root);
+}
+
+export function getAllKnowledgePaths(): { params: { knowledge: string } }[] {
+  const fileNames = fs.readdirSync(KNOWLEDGE_PATH);
+  return fileNames.map((fileName) => {
+    return {
+      params: {
+        knowledge: fileName.replace(/\.yaml$/, ""),
+      },
+    };
+  });
 }
