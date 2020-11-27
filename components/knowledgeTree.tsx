@@ -52,15 +52,16 @@ const useStyles = makeStyles((theme) => {
 function TreeNode({ nodeData }: TreeNodeProps): React.ReactElement {
   const classes = useStyles();
   const resources = nodeData.resources?.map((resource) => {
+    console.log(resource.link);
     return (
-      <div>
+      <div key={resource.name + resource.link}>
         <PlayCircleOutlineIcon className={classes.cardIcon} />
-        <a href={resource.link}>{resource.name}</a>
+        <a href={resource.link || "/"}>{resource.name}</a>
       </div>
     );
   });
   return (
-    <Card className={classes.cardRoot}>
+    <Card className={classes.cardRoot} key={nodeData.name}>
       <CardContent className={classes.cardContent}>
         <Typography className={classes.cardHeader} color="textPrimary">
           {nodeData.name}

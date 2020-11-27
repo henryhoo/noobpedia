@@ -3,5 +3,5 @@ name: Computer Science
 resources:
   - cs_scroll.yaml
 children:
-  - shell.yaml
+  - tools.yaml
   - programming_language.yaml
