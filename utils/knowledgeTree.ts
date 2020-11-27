@@ -19,37 +19,45 @@ type KnowledgeSubjectRaw = {
 };
 
 export function getKnowledgeTree(knowledge?: string): KnowledgeSubject {
-  const allKnowledgeFiles: {} = getAllFileContentsInDir(KNOWLEDGE_PATH);
-  const allResourcesFiles: {} = getAllFileContentsInDir(
+  const allKnowledgeYAMLContents: {} = getAllFileContentsInDir(KNOWLEDGE_PATH);
+  const allResourceYAMLContents: {} = getAllFileContentsInDir(
     KNOWLEDGE_RESOURCE_PATH
   );
 
   const createTreeNode = (node: KnowledgeSubjectRaw): KnowledgeSubject => {
-    const childrenFiles = node.children;
-    const resourceFiles = node.resources;
+    const childrenFileNames = node.children;
+    const resourceFileNames = node.resources;
     const children =
-      childrenFiles?.map(
+      childrenFileNames?.map(
         (file: string): KnowledgeSubject => {
-          if (file in allKnowledgeFiles) {
-            return createTreeNode(yaml.safeLoad(allKnowledgeFiles[file]));
+          if (file in allKnowledgeYAMLContents) {
+            return createTreeNode(
+              yaml.safeLoad(allKnowledgeYAMLContents[file])
+            );
           }
           throw new Error(`knowledge ${file} does not exist`);
         }
       ) || [];
     const resources =
-      resourceFiles?.map(
+      resourceFileNames?.map(
         (file: string): KnowledgeResource => {
-          if (file in allResourcesFiles) {
-            return yaml.safeLoad(allResourcesFiles[file]);
+          if (file in allResourceYAMLContents) {
+            return yaml.safeLoad(allResourceYAMLContents[file]);
           }
           throw new Error(`resource ${file} does not exist`);
         }
       ) || [];
-    return { name: node.name, children: children, resources: resources };
+    return { name: node.name, children, resources };
   };
 
+  const knowledgeFileName = knowledge
+    ? knowledge + ".yaml"
+    : ROOT_KNOWLEDGE_FILENAME;
+  if (!(knowledgeFileName in allKnowledgeYAMLContents)) {
+    throw new Error(`knowledge ${knowledgeFileName} does not exist`);
+  }
   const root: KnowledgeSubjectRaw = yaml.safeLoad(
-    allKnowledgeFiles[knowledge ? knowledge + ".yaml" : ROOT_KNOWLEDGE_FILENAME]
+    allKnowledgeYAMLContents[knowledgeFileName]
   );
   return createTreeNode(root);
 }

@@ -11,6 +11,7 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import Breadcrumbs from "@material-ui/core/breadcrumbs";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const rootTheme = createMuiTheme({
   spacing: 8,
@@ -57,6 +58,7 @@ const useStyles = makeStyles((theme) => ({
 
 function MyApp({ Component, pageProps }) {
   const classes = useStyles();
+  const router = useRouter();
 
   return (
     <ThemeProvider theme={rootTheme}>
@@ -74,6 +76,9 @@ function MyApp({ Component, pageProps }) {
             <Link color="inherit" href="/">
               noobpedia
             </Link>
+            <Typography variant="h6" className={classes.title}>
+              {router.query.knowledge || ""}
+            </Typography>
           </Breadcrumbs>
         </Toolbar>
       </AppBar>
