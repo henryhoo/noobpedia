@@ -7,7 +7,6 @@ export default function Home(props) {
   const targetRef = useRef(null);
   return (
     <div className={styles.container} ref={targetRef}>
-      <h1> Computer Science </h1>
       <Tree data={props.knowledgeTreeRoot} targetRef={targetRef} />
     </div>
   );
