@@ -13,7 +13,8 @@ type Props = { allKnowledge: KnowledgeMetadata[] };
 
 const useStyles = makeStyles((theme) => {
   return {
-    cardRoot: {
+    container: {
+      paddingTop: theme.spacing(4),
       display: "flex",
       maxWidth: "100%",
       maxHeight: "50%",
@@ -27,7 +28,6 @@ const useStyles = makeStyles((theme) => {
     knowledgeCard: {
       flexBasis: "30%",
       flexGrow: 1,
-      backgroundColor: theme.palette.primary.light,
       margin: "10px",
     },
   };
@@ -50,12 +50,10 @@ export default function AllKnowledgeSection({
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small" color="primary">
-            Learn More
-          </Button>
+          <Button size="small">Learn More</Button>
         </CardActions>
       </Card>
     );
   });
-  return <div className={classes.cardRoot}>{knowledgeSections}</div>;
+  return <div className={classes.container}>{knowledgeSections}</div>;
 }
