@@ -16,7 +16,6 @@ const useStyles = makeStyles((theme) => {
     cardRoot: {
       maxWidth: NODE_SIZE.width,
       maxHeight: NODE_SIZE.height,
-      backgroundColor: theme.palette.primary.light,
     },
     cardContent: {
       padding: "5px",

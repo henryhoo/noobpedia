@@ -13,10 +13,10 @@ import type {
   KnowledgeResource,
   KnowledgeMetadata,
 } from "types";
-import { resolveMx } from "dns";
 
 type KnowledgeSubjectRaw = {
   name: string;
+  description?: string;
   resources: string[];
   children: string[];
 };
@@ -25,13 +25,11 @@ export function getKnowledgeTree(knowledgeDir: string): KnowledgeSubject {
   const knowledgeDirPath = KNOWLEDGE_PATH + knowledgeDir + "/";
   const knowledgeFileName = ROOT_KNOWLEDGE_FILENAME;
 
-  const allKnowledgeYAMLContents: {} = getAllFileContentsInDir(
-    knowledgeDirPath
-  );
-  const allResourceYAMLContents: {} = getAllFileContentsInDir(
+  const allKnowledgeYAMLContents = getAllFileContentsInDir(knowledgeDirPath);
+  const allResourceYAMLContents = getAllFileContentsInDir(
     KNOWLEDGE_RESOURCE_PATH
   );
-  if (!(knowledgeFileName in allKnowledgeYAMLContents)) {
+  if (!allKnowledgeYAMLContents.has(knowledgeFileName)) {
     throw new Error(`knowledge ${knowledgeFileName} does not exist`);
   }
 
@@ -41,9 +39,9 @@ export function getKnowledgeTree(knowledgeDir: string): KnowledgeSubject {
     const children =
       childrenFileNames?.map(
         (file: string): KnowledgeSubject => {
-          if (file in allKnowledgeYAMLContents) {
+          if (allKnowledgeYAMLContents.has(file)) {
             return createTreeNode(
-              yaml.safeLoad(allKnowledgeYAMLContents[file])
+              yaml.safeLoad(allKnowledgeYAMLContents.get(file))
             );
           }
           throw new Error(`knowledge ${file} does not exist`);
@@ -52,17 +50,22 @@ export function getKnowledgeTree(knowledgeDir: string): KnowledgeSubject {
     const resources =
       resourceFileNames?.map(
         (file: string): KnowledgeResource => {
-          if (file in allResourceYAMLContents) {
-            return yaml.safeLoad(allResourceYAMLContents[file]);
+          if (allResourceYAMLContents.has(file)) {
+            return yaml.safeLoad(allResourceYAMLContents.get(file));
           }
           throw new Error(`resource ${file} does not exist`);
         }
       ) || [];
-    return { name: node.name, children, resources };
+    return {
+      name: node.name,
+      description: node.description ?? null,
+      children,
+      resources,
+    };
   };
 
   const root: KnowledgeSubjectRaw = yaml.safeLoad(
-    allKnowledgeYAMLContents[knowledgeFileName]
+    allKnowledgeYAMLContents.get(knowledgeFileName)
   );
   return createTreeNode(root);
 }
@@ -81,18 +84,16 @@ export function getAllKnowledgePaths(): { params: { knowledge: string } }[] {
 export function getAllKnowledges(): KnowledgeMetadata[] {
   const knowledgeDirs = fs.readdirSync(KNOWLEDGE_PATH);
   const res = knowledgeDirs.map((knowledgeDir) => {
-    const content = yaml.safeLoad(
+    const content: KnowledgeSubjectRaw = yaml.safeLoad(
       getFileContent(
         KNOWLEDGE_PATH + knowledgeDir + "/" + ROOT_KNOWLEDGE_FILENAME
       )
     );
     return {
       name: content.name,
+      description: content.description ?? null,
       path: knowledgeDir,
     };
   });
-  res.push({ name: "dummy", path: "sd" });
-  res.push({ name: "dummy", path: "sd" });
-  res.push({ name: "dummy", path: "sd" });
   return res;
 }

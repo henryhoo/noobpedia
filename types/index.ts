@@ -11,8 +11,13 @@ export type KnowledgeResource = {
 
 export type KnowledgeSubject = {
   name: string;
+  description: string | null;
   resources: KnowledgeResource[];
   children: KnowledgeSubject[];
 };
 
-export type KnowledgeMetadata = { name: string; path: string };
+export type KnowledgeMetadata = {
+  name: string;
+  description: string | null;
+  path: string;
+};

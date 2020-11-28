@@ -2,13 +2,14 @@ import React, { useRef } from "react";
 import styles from "styles/Home.module.css";
 import { GetStaticProps } from "next";
 import { getAllKnowledges } from "utils/knowledgeTree";
-import GithubCorner from "react-github-corner";
 import AllKnowledgeSection from "components/allKnowledgesSection";
 import type { KnowledgeMetadata } from "types";
 import Typography from "@material-ui/core/Typography";
 import Head from "next/head";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
+import WbIncandescentOutlinedIcon from "@material-ui/icons/WbIncandescentOutlined";
+import BubbleChartOutlinedIcon from "@material-ui/icons/BubbleChartOutlined";
 
 type Props = {
   allKnowledge: KnowledgeMetadata[];
@@ -28,6 +29,21 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     margin: theme.spacing(1),
+    background: theme.palette.success.light,
+  },
+  title: {
+    marginTop: theme.spacing(4),
+    margin: theme.spacing(1),
+    lineHeight: 1.15,
+    fontSize: "4rem",
+  },
+  description: {
+    lineHeight: 1.5,
+    fontSize: "1.5rem",
+  },
+  knowledgeSection: {
+    borderTop: "1px solid #eaeaea",
+    width: "100%",
   },
 }));
 
@@ -37,21 +53,20 @@ export default function Home(props: Props) {
 
   return (
     <div className={classes.root} ref={targetRef}>
-      <GithubCorner href="https://github.com/noobpedia/noobpedia" />
       <Head>
         <title>noobpedia</title>
       </Head>
-      <h1 className={styles.title}>Starter guide for n00b</h1>
-      <p className={styles.description}>
-        Learning with the best resources voted by{" "}
-        <code className={styles.code}>community</code>
+      <h1 className={classes.title}>Starter guide for n00b</h1>
+      <p className={classes.description}>
+        Learning with the best resources voted by <code>community</code>
       </p>
-      <Typography variant="body1" component="p"></Typography>
       <div>
         <Button
           variant="contained"
           href="https://github.com/noobpedia/noobpedia/blob/master/contributing/knowledge.md"
           className={classes.button}
+          startIcon={<WbIncandescentOutlinedIcon />}
+          size="small"
         >
           Write a new topic
         </Button>
@@ -59,14 +74,18 @@ export default function Home(props: Props) {
           variant="contained"
           href="https://github.com/noobpedia/noobpedia/blob/master/contributing/resource.md"
           className={classes.button}
+          startIcon={<BubbleChartOutlinedIcon />}
+          size="small"
         >
           Add useful resources
         </Button>
       </div>
 
-      <AllKnowledgeSection
-        allKnowledge={props.allKnowledge}
-      ></AllKnowledgeSection>
+      <div className={classes.knowledgeSection}>
+        <AllKnowledgeSection
+          allKnowledge={props.allKnowledge}
+        ></AllKnowledgeSection>
+      </div>
     </div>
   );
 }

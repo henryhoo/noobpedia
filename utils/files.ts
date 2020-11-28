@@ -20,10 +20,10 @@ function readFilesInDirSync(
   });
 }
 
-export function getAllFileContentsInDir(dirPath: string): {} {
-  var data = {};
+export function getAllFileContentsInDir(dirPath: string): Map<string, string> {
+  var data = new Map();
   readFilesInDirSync(dirPath, function (filename: string, content: string) {
-    data[filename] = content;
+    data.set(filename, content);
   });
   return data;
 }
