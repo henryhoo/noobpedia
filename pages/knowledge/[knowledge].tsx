@@ -1,8 +1,8 @@
 import { getAllKnowledgePaths } from "utils/knowledgeTree";
 import { GetStaticProps, GetStaticPaths } from "next";
+import { makeStyles } from "@material-ui/core/styles";
 
 import React, { useRef } from "react";
-import styles from "styles/Home.module.css";
 import Tree from "components/knowledgeTree";
 import { KnowledgeSubject } from "types";
 import { getKnowledgeTree } from "utils/knowledgeTree";
@@ -15,10 +15,19 @@ type Props = {
   knowledgeTreeRoot: KnowledgeSubject;
 };
 
+const useStyles = makeStyles((theme) => {
+  return {
+    container: {
+      height: "100%",
+    },
+  };
+});
+
 export default function Home(props: Props) {
   const targetRef = useRef(null);
+  const classes = useStyles();
   return (
-    <div className={styles.container} ref={targetRef}>
+    <div className={classes.container} ref={targetRef}>
       <Tree data={props.knowledgeTreeRoot} targetRef={targetRef} />
     </div>
   );

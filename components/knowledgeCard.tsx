@@ -9,7 +9,7 @@ import { NODE_SIZE } from "components/knowledgeTree";
 
 import type { KnowledgeSubject } from "types";
 
-type TreeNodeProps = { nodeData?: KnowledgeSubject };
+type TreeNodeProps = { nodeData: KnowledgeSubject };
 
 const useStyles = makeStyles((theme) => {
   return {

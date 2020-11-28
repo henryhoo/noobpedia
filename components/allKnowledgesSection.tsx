@@ -50,7 +50,9 @@ export default function AllKnowledgeSection({
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small">Learn More</Button>
+          <Button size="small" href={"/knowledge/" + knowledge.path}>
+            Learn More
+          </Button>
         </CardActions>
       </Card>
     );
