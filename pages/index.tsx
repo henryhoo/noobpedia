@@ -50,14 +50,14 @@ export default function Home(props: Props) {
       <div>
         <Button
           variant="contained"
-          href="#contained-buttons"
+          href="https://github.com/noobpedia/noobpedia/blob/master/contributing/knowledge.md"
           className={classes.button}
         >
           Write a new topic
         </Button>
         <Button
           variant="contained"
-          href="#contained-buttons"
+          href="https://github.com/noobpedia/noobpedia/blob/master/contributing/resource.md"
           className={classes.button}
         >
           Add useful resources
