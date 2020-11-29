@@ -17,18 +17,25 @@ const useStyles = makeStyles((theme) => {
       paddingTop: theme.spacing(4),
       display: "flex",
       maxWidth: "100%",
-      maxHeight: "50%",
+      maxHeight: "80%",
       flexDirection: "row",
       flexWrap: "wrap",
       justifyContent: "space-evenly",
-    },
-    cardContent: {
-      padding: "5px",
     },
     knowledgeCard: {
       flexBasis: "30%",
       flexGrow: 1,
       margin: "10px",
+      maxWidth: "25%",
+    },
+    cardContent: {
+      // padding: "5px",
+    },
+    CardHeader: {
+      fontSize: theme.typography.fontSize,
+      flexGrow: 1,
+      margin: "10px",
+      maxWidth: "25%",
     },
   };
 });
@@ -39,19 +46,18 @@ export default function AllKnowledgeSection({
   const classes = useStyles();
   const knowledgeSections = allKnowledge.map((knowledge, idx) => {
     return (
-      <Card className={classes.knowledgeCard} key={idx}>
+      <Card variant="outlined" className={classes.knowledgeCard} key={idx}>
         <CardContent className={classes.cardContent}>
-          <Typography gutterBottom variant="h5">
+          <Typography gutterBottom variant="h6">
             {knowledge.name}
           </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
+          <Typography variant="body2" color="textSecondary">
+            {knowledge.description}
           </Typography>
         </CardContent>
         <CardActions>
           <Button size="small" href={"/knowledge/" + knowledge.path}>
-            Learn More
+            Learn
           </Button>
         </CardActions>
       </Card>

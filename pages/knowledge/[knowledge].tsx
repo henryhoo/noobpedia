@@ -1,11 +1,9 @@
-import { getAllKnowledgePaths } from "utils/knowledgeTree";
 import { GetStaticProps, GetStaticPaths } from "next";
 import { makeStyles } from "@material-ui/core/styles";
-
 import React, { useRef } from "react";
 import Tree from "components/knowledgeTree";
 import { KnowledgeSubject } from "types";
-import { getKnowledgeTree } from "utils/knowledgeTree";
+import { getKnowledgeTree, getAllKnowledgePaths } from "lib/knowledge";
 
 type URLParams = {
   knowledge: string;
@@ -44,6 +42,6 @@ export const getStaticProps: GetStaticProps<Props, URLParams> = async ({
   params,
 }) => {
   return {
-    props: { knowledgeTreeRoot: getKnowledgeTree(params.knowledge) }, // will be passed to the page component as props
+    props: { knowledgeTreeRoot: await getKnowledgeTree(params.knowledge) }, // will be passed to the page component as props
   };
 };

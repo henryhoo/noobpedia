@@ -1,18 +1,17 @@
 import "../styles/globals.css";
-import {
-  createMuiTheme,
-  ThemeProvider,
-  makeStyles,
-} from "@material-ui/core/styles";
+import { ThemeProvider, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
+import Button from "@material-ui/core/Button";
+import AccountTreeIcon from "@material-ui/icons/AccountTree";
 import Breadcrumbs from "@material-ui/core/breadcrumbs";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import theme from "styles/theme";
+import GitHubIcon from "@material-ui/icons/GitHub";
+import CssBaseline from "@material-ui/core/CssBaseline";
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -20,6 +19,10 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+  },
+  githubButton: {
+    marginRight: theme.spacing(2),
+    marginLeft: "auto",
   },
 }));
 
@@ -29,15 +32,16 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline />
       <AppBar position="static">
         <Toolbar>
           <IconButton
             edge="start"
             className={classes.menuButton}
             color="inherit"
-            aria-label="menu"
+            aria-label="delete"
           >
-            <MenuIcon />
+            <AccountTreeIcon />
           </IconButton>
           <Breadcrumbs aria-label="breadcrumb">
             <Link color="inherit" href="/">
@@ -47,6 +51,14 @@ function MyApp({ Component, pageProps }) {
               {router.query.knowledge || ""}
             </Typography>
           </Breadcrumbs>
+          <Button
+            variant="contained"
+            href="https://github.com/noobpedia/noobpedia"
+            className={classes.githubButton}
+            startIcon={<GitHubIcon></GitHubIcon>}
+          >
+            Fork
+          </Button>
         </Toolbar>
       </AppBar>
       <Component {...pageProps} />

@@ -6,8 +6,9 @@ import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 import { NODE_SIZE } from "components/knowledgeTree";
-
+import Badge from "@material-ui/core/Badge";
 import type { KnowledgeSubject } from "types";
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 
 type TreeNodeProps = { nodeData: KnowledgeSubject };
 
@@ -16,7 +17,6 @@ const useStyles = makeStyles((theme) => {
     cardRoot: {
       maxWidth: NODE_SIZE.width,
       maxHeight: NODE_SIZE.height,
-      backgroundColor: theme.palette.primary.light,
     },
     cardContent: {
       padding: "5px",
@@ -28,6 +28,9 @@ const useStyles = makeStyles((theme) => {
     },
     cardIcon: {
       marginRight: "3px",
+    },
+    likes: {
+      float: "right",
     },
   };
 });
@@ -41,6 +44,10 @@ export default function TreeNode({
       <div key={resource.name + resource.link}>
         <PlayCircleOutlineIcon className={classes.cardIcon} />
         <a href={resource.link || "/"}>{resource.name}</a>
+        <div className={classes.likes}>
+          <FavoriteBorderIcon />
+          {resource.likes}
+        </div>
       </div>
     );
   });

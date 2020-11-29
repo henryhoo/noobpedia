@@ -4,6 +4,7 @@ export function getFileContent(filePath: string): string {
   if (!fs.lstatSync(filePath).isDirectory()) {
     return fs.readFileSync(filePath, "utf-8");
   }
+  return "";
 }
 
 function readFilesInDirSync(
@@ -20,10 +21,10 @@ function readFilesInDirSync(
   });
 }
 
-export function getAllFileContentsInDir(dirPath: string): {} {
-  var data = {};
+export function getAllFileContentsInDir(dirPath: string): Map<string, string> {
+  var data = new Map();
   readFilesInDirSync(dirPath, function (filename: string, content: string) {
-    data[filename] = content;
+    data.set(filename, content);
   });
   return data;
 }

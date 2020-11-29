@@ -1,5 +1,6 @@
 ---
 name: Computer Science Introduction
+description: First step to learn computer science
 resources:
   - cs_scroll.yaml
 children:

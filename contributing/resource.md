@@ -2,6 +2,7 @@
 
 - Fork this repository
 - Add a new yaml file (e.g. `mit600001.yaml`) in `contents/resources` folder
+- Link new filename in relevant topic's `resources` field, see [topic format](https://github.com/noobpedia/noobpedia/tree/master/contributing/knowledge.md) for more detail.
 - Create a pull request
 
 ## YAML file format
