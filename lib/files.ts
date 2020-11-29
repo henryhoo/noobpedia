@@ -4,6 +4,7 @@ export function getFileContent(filePath: string): string {
   if (!fs.lstatSync(filePath).isDirectory()) {
     return fs.readFileSync(filePath, "utf-8");
   }
+  return "";
 }
 
 function readFilesInDirSync(

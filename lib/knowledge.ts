@@ -5,7 +5,7 @@ import {
 } from "constants/path";
 
 import yaml from "js-yaml";
-import { getAllFileContentsInDir, getFileContent } from "utils/files";
+import { getAllFileContentsInDir, getFileContent } from "lib/files";
 import fs from "fs";
 
 import type {
@@ -13,6 +13,7 @@ import type {
   KnowledgeResource,
   KnowledgeMetadata,
 } from "types";
+import { getOrInitResourceLikes } from "lib/firestore";
 
 type KnowledgeSubjectRaw = {
   name: string;
@@ -21,7 +22,9 @@ type KnowledgeSubjectRaw = {
   children: string[];
 };
 
-export function getKnowledgeTree(knowledgeDir: string): KnowledgeSubject {
+export async function getKnowledgeTree(
+  knowledgeDir: string
+): Promise<KnowledgeSubject> {
   const knowledgeDirPath = KNOWLEDGE_PATH + knowledgeDir + "/";
   const knowledgeFileName = ROOT_KNOWLEDGE_FILENAME;
 
@@ -33,29 +36,43 @@ export function getKnowledgeTree(knowledgeDir: string): KnowledgeSubject {
     throw new Error(`knowledge ${knowledgeFileName} does not exist`);
   }
 
-  const createTreeNode = (node: KnowledgeSubjectRaw): KnowledgeSubject => {
+  const createTreeNode = async (
+    node: KnowledgeSubjectRaw
+  ): Promise<KnowledgeSubject> => {
     const childrenFileNames = node.children;
-    const resourceFileNames = node.resources;
-    const children =
+    const childrenPromises =
       childrenFileNames?.map(
-        (file: string): KnowledgeSubject => {
+        async (file: string): Promise<KnowledgeSubject> => {
           if (allKnowledgeYAMLContents.has(file)) {
-            return createTreeNode(
+            return await createTreeNode(
               yaml.safeLoad(allKnowledgeYAMLContents.get(file))
             );
           }
           throw new Error(`knowledge ${file} does not exist`);
         }
       ) || [];
-    const resources =
+    const children = await Promise.all(childrenPromises);
+
+    const resourceFileNames = node.resources;
+    const resourcesPromises =
       resourceFileNames?.map(
-        (file: string): KnowledgeResource => {
+        async (file: string): Promise<KnowledgeResource> => {
           if (allResourceYAMLContents.has(file)) {
-            return yaml.safeLoad(allResourceYAMLContents.get(file));
+            const resource = yaml.safeLoad(allResourceYAMLContents.get(file));
+            const likes = await getOrInitResourceLikes(resource);
+            return {
+              name: resource.name,
+              link: resource.link,
+              type: resource.type,
+              length: resource.length,
+              likes,
+            };
           }
           throw new Error(`resource ${file} does not exist`);
         }
       ) || [];
+    const resources = await Promise.all(resourcesPromises);
+
     return {
       name: node.name,
       description: node.description ?? null,
@@ -67,7 +84,7 @@ export function getKnowledgeTree(knowledgeDir: string): KnowledgeSubject {
   const root: KnowledgeSubjectRaw = yaml.safeLoad(
     allKnowledgeYAMLContents.get(knowledgeFileName)
   );
-  return createTreeNode(root);
+  return await createTreeNode(root);
 }
 
 export function getAllKnowledgePaths(): { params: { knowledge: string } }[] {
