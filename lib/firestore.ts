@@ -29,7 +29,7 @@ if (process.env.NODE_ENV !== "development") {
   firestore = admin.firestore();
 } else {
   firestore = testing
-    .initializeTestApp({ projectId: "test-project" })
+    .initializeTestApp({ projectId: "noobpedia-3939f" })
     .firestore();
 }
 
@@ -45,12 +45,14 @@ export async function getOrInitResourceLikes(
     .get()
     .then((doc: DocumentSnapshot) => {
       if (doc.exists) {
-        likeCount = doc.data().likes;
+        likeCount = doc.data()?.likes;
+        console.log(doc.data());
       } else {
         doc.ref.set({
           name: resource.name,
           likes: 0,
         });
+        console.log("setting new doc");
       }
     })
     .catch((error: FirestoreError) => {
