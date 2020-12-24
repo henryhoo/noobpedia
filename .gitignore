@@ -33,6 +33,10 @@ yarn-error.log*
 # vercel
 .vercel
 
-# firebase logs
+# firebase
 firebase-debug.log
 firestore-debug.log
+ui-debug.log
+**/.firebaserc
+.runtimeconfig.json
+.firebase/

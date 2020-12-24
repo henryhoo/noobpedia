@@ -5,7 +5,6 @@ const testing = require("@firebase/testing");
 
 let firestore: any;
 
-console.log(process.env.NODE_ENV);
 if (process.env.NODE_ENV !== "development") {
   try {
     admin.initializeApp({
