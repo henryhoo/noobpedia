@@ -1,6 +1,6 @@
-import D3Tree from "components/d3Tree";
+import D3Tree from "pages/components/d3Tree";
 import React, { useEffect, useState } from "react";
-import TreeNode from "components/knowledgeCard";
+import TreeNode from "pages/components/knowledgeCard";
 
 export const NODE_SIZE: { width: number; height: number } = {
   width: 300,

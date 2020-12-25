@@ -1,6 +1,10 @@
 import admin from "firebase-admin";
 import { KnowledgeResource } from "types";
-import { DocumentSnapshot, FirestoreError } from "@firebase/firestore-types";
+import {
+  DocumentSnapshot,
+  FirestoreError,
+  Transaction,
+} from "@firebase/firestore-types";
 const testing = require("@firebase/testing");
 
 let firestore: any;
@@ -46,17 +50,30 @@ export async function getOrInitResourceLikes(
     .then((doc: DocumentSnapshot) => {
       if (doc.exists) {
         likeCount = doc.data()?.likes;
-        console.log(doc.data());
       } else {
         doc.ref.set({
           name: resource.name,
           likes: 0,
         });
-        console.log("setting new doc");
       }
     })
     .catch((error: FirestoreError) => {
       return 0;
     });
   return likeCount;
+}
+
+export async function bumpResourceLike(resourceName: string): Promise<boolean> {
+  try {
+    const resourceRef = firestore.collection("resources").doc(resourceName);
+    await firestore.runTransaction(async (t: Transaction) => {
+      const resource: DocumentSnapshot = await t.get(resourceRef);
+      const newLikes = resource.data()?.likes + 1;
+      t.update(resourceRef, { likes: newLikes });
+    });
+    return true;
+  } catch (e) {
+    console.log("failed to bump like for resource " + resourceName, e);
+    return false;
+  }
 }

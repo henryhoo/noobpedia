@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import styles from "styles/Home.module.css";
 import { GetStaticProps } from "next";
 import { getAllKnowledges } from "lib/knowledge";
-import AllKnowledgeSection from "components/allKnowledgesSection";
+import AllKnowledgeSection from "pages/components/allKnowledgesSection";
 import type { KnowledgeMetadata } from "types";
 import Typography from "@material-ui/core/Typography";
 import Head from "next/head";

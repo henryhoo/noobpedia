@@ -5,10 +5,10 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
-import { NODE_SIZE } from "components/knowledgeTree";
-import Badge from "@material-ui/core/Badge";
+import { NODE_SIZE } from "pages/components/knowledgeTree";
 import type { KnowledgeSubject } from "types";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import { IconButton } from "@material-ui/core";
 
 type TreeNodeProps = { nodeData: KnowledgeSubject };
 
@@ -39,14 +39,34 @@ export default function TreeNode({
   nodeData,
 }: TreeNodeProps): React.ReactElement {
   const classes = useStyles();
+
   const resources = nodeData.resources?.map((resource) => {
+    const onLikeClicked = () => {
+      const url = "/api/bumpLike";
+      const options = {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json;charset=UTF-8",
+        },
+        body: JSON.stringify({
+          resourceName: resource.name,
+        }),
+      };
+      fetch(url, options).then((response) => {
+        console.log(response.status);
+      });
+    };
+
     return (
       <div key={resource.name + resource.link}>
         <PlayCircleOutlineIcon className={classes.cardIcon} />
         <a href={resource.link || "/"}>{resource.name}</a>
         <div className={classes.likes}>
-          <FavoriteBorderIcon />
-          {resource.likes}
+          <IconButton onClick={onLikeClicked}>
+            <FavoriteBorderIcon />
+            {resource.likes}
+          </IconButton>
         </div>
       </div>
     );
