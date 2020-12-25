@@ -1,7 +1,7 @@
 import { GetStaticProps, GetStaticPaths } from "next";
 import { makeStyles } from "@material-ui/core/styles";
 import React, { useRef } from "react";
-import Tree from "components/knowledgeTree";
+import Tree from "pages/components/knowledgeTree";
 import { KnowledgeSubject } from "types";
 import { getKnowledgeTree, getAllKnowledgePaths } from "lib/knowledge";
 

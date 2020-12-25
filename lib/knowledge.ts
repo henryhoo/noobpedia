@@ -59,13 +59,14 @@ export async function getKnowledgeTree(
         async (file: string): Promise<KnowledgeResource> => {
           if (allResourceYAMLContents.has(file)) {
             const resource = yaml.safeLoad(allResourceYAMLContents.get(file));
-            const likes = await getOrInitResourceLikes(resource);
+            const likes = await getOrInitResourceLikes(resource.name);
             return {
               name: resource.name,
               link: resource.link,
               type: resource.type,
               length: resource.length,
               likes,
+              liked: false,
             };
           }
           throw new Error(`resource ${file} does not exist`);

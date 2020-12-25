@@ -1,11 +1,13 @@
 import admin from "firebase-admin";
-import { KnowledgeResource } from "types";
-import { DocumentSnapshot, FirestoreError } from "@firebase/firestore-types";
+import {
+  DocumentSnapshot,
+  FirestoreError,
+  Transaction,
+} from "@firebase/firestore-types";
 const testing = require("@firebase/testing");
 
 let firestore: any;
 
-console.log(process.env.NODE_ENV);
 if (process.env.NODE_ENV !== "development") {
   try {
     admin.initializeApp({
@@ -30,26 +32,26 @@ if (process.env.NODE_ENV !== "development") {
   firestore = admin.firestore();
 } else {
   firestore = testing
-    .initializeTestApp({ projectId: "test-project" })
+    .initializeTestApp({ projectId: "noobpedia-3939f" })
     .firestore();
 }
 
 export default firestore;
 
 export async function getOrInitResourceLikes(
-  resource: KnowledgeResource
+  resourceName: string
 ): Promise<number> {
   let likeCount = 0;
   await firestore
     .collection("resources")
-    .doc(resource.name)
+    .doc(resourceName)
     .get()
     .then((doc: DocumentSnapshot) => {
       if (doc.exists) {
-        likeCount = doc.data().likes;
+        likeCount = doc.data()?.likes;
       } else {
         doc.ref.set({
-          name: resource.name,
+          name: resourceName,
           likes: 0,
         });
       }
@@ -58,4 +60,19 @@ export async function getOrInitResourceLikes(
       return 0;
     });
   return likeCount;
+}
+
+export async function bumpResourceLike(resourceName: string): Promise<boolean> {
+  try {
+    const resourceRef = firestore.collection("resources").doc(resourceName);
+    await firestore.runTransaction(async (t: Transaction) => {
+      const resource: DocumentSnapshot = await t.get(resourceRef);
+      const newLikes = resource.data()?.likes + 1;
+      t.update(resourceRef, { likes: newLikes });
+    });
+    return true;
+  } catch (e) {
+    console.log("failed to bump like for resource " + resourceName, e);
+    return false;
+  }
 }
