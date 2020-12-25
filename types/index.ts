@@ -9,6 +9,7 @@ export type KnowledgeResource = {
   type: ResourceType;
   length: number;
   likes: number;
+  liked: boolean;
 };
 
 export type KnowledgeSubject = {

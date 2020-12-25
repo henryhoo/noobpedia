@@ -1,5 +1,4 @@
 import admin from "firebase-admin";
-import { KnowledgeResource } from "types";
 import {
   DocumentSnapshot,
   FirestoreError,
@@ -40,19 +39,19 @@ if (process.env.NODE_ENV !== "development") {
 export default firestore;
 
 export async function getOrInitResourceLikes(
-  resource: KnowledgeResource
+  resourceName: string
 ): Promise<number> {
   let likeCount = 0;
   await firestore
     .collection("resources")
-    .doc(resource.name)
+    .doc(resourceName)
     .get()
     .then((doc: DocumentSnapshot) => {
       if (doc.exists) {
         likeCount = doc.data()?.likes;
       } else {
         doc.ref.set({
-          name: resource.name,
+          name: resourceName,
           likes: 0,
         });
       }
